@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Shipment - Henry Shipping Delivery Team</title>
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f4f4f4;
+text-align:center;
+padding:40px;
+}
+.container{
+background:white;
+max-width:500px;
+margin:auto;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+input{
+width:90%;
+padding:12px;
+margin:15px 0;
+}
+button{
+padding:12px 25px;
+background:#007BFF;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+#result{
+margin-top:20px;
+font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Track Your Shipment</h1>
+
+<input
+id="tracking"
+placeholder="Enter Tracking Number">
+
+<br>
+
+<button onclick="track()">Track</button>
+
+<p id="result"></p>
+</div>
+
+<script>
+function track(){
+let number=document.getElementById("tracking").value;
+
+if(number==="HSD123456"){
+document.getElementById("result").innerHTML=
+"✅ Shipment is in Lagos and out for delivery.";
+}else{
+document.getElementById("result").innerHTML=
+"❌ Tracking number not found.";
+}
+}
+</script>
+
+</body>
+</html>
