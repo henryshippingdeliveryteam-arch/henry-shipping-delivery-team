@@ -59,8 +59,23 @@ function track(){
 let number=document.getElementById("tracking").value;
 if(number==="HSDT123456789"){
 document.getElementById("result").innerHTML=
-"✅ Shipment is in Lagos and out for delivery.";
-}else{
+document.getElementById("result").innerHTML = `
+<h3>Shipment Details</h3>
+
+<p><strong>Tracking Number:</strong> HSDT123456789</p>
+
+<p><strong>Status:</strong> 🚚 Out for Delivery</p>
+
+<p><strong>Current Location:</strong> Lagos, Nigeria</p>
+
+<p><strong>Destination:</strong> Victoria Island, Lagos</p>
+
+<p><strong>Estimated Delivery:</strong> July 15, 2026</p>
+
+<p><strong>Receiver:</strong> John Doe</p>
+
+<p><strong>Package:</strong> Electronics</p>
+`;
 document.getElementById("result").innerHTML=
 "❌ Tracking number not found.";
 }
