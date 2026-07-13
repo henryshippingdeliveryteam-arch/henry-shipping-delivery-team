@@ -1,16 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fb;
+margin:0;
+}
+
+header{
+background:#003366;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+.container{
+max-width:800px;
+margin:30px auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin:10px 0;
+}
+
+button{
+background:#003366;
+color:white;
+padding:12px;
+border:none;
+cursor:pointer;
+width:100%;
+}
+
+#output{
+margin-top:20px;
+padding:15px;
+background:#eef7ff;
+border-radius:8px;
+}
+</style>
 </head>
 
 <body>
 
+<header>
 <h1>Henry Shipping Delivery Team</h1>
-
 <h2>Admin Dashboard</h2>
+</header>
 
-<p>Welcome, Administrator!</p>
+<div class="container">
+
+<input type="text" id="tracking" placeholder="Tracking Number">
+
+<input type="text" id="receiver" placeholder="Receiver Name">
+
+<input type="text" id="location" placeholder="Current Location">
+
+<select id="status">
+<option>Processing</option>
+<option>In Transit</option>
+<option>Out for Delivery</option>
+<option>Delivered</option>
+</select>
+
+<button onclick="saveShipment()">Save Shipment</button>
+
+<div id="output"></div>
+
+</div>
+
+<script>
+function saveShipment(){
+
+let tracking=document.getElementById("tracking").value;
+let receiver=document.getElementById("receiver").value;
+let location=document.getElementById("location").value;
+let status=document.getElementById("status").value;
+
+document.getElementById("output").innerHTML=
+"<h3>Shipment Saved</h3>"+
+"<p><b>Tracking:</b> "+tracking+"</p>"+
+"<p><b>Receiver:</b> "+receiver+"</p>"+
+"<p><b>Location:</b> "+location+"</p>"+
+"<p><b>Status:</b> "+status+"</p>";
+
+}
+</script>
 
 </body>
 </html>
