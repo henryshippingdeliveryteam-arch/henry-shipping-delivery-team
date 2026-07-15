@@ -4,46 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Track Shipment - Henry Shipping Delivery Team</title>
+
 <style>
 body{
-font-family:Arial,sans-serif;
-background:#f4f4f4;
-text-align:center;
-padding:40px;
+    font-family:Arial,sans-serif;
+    background:#f4f4f4;
+    margin:0;
+    padding:40px;
 }
+
 .container{
-background:white;
-max-width:500px;
-margin:auto;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,.2);
+    background:white;
+    max-width:600px;
+    margin:auto;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+    text-align:center;
 }
+
 input{
-width:90%;
-padding:12px;
-margin:15px 0;
+    width:90%;
+    padding:12px;
+    margin:15px 0;
+    font-size:16px;
 }
+
 button{
-padding:12px 25px;
-background:#007BFF;
-color:white;
-border:none;
-border-radius:5px;
-cursor:pointer;
+    padding:12px 25px;
+    background:#007BFF;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:16px;
 }
+
+button:hover{
+    background:#0056b3;
+}
+
 #result{
-margin-top:20px;
-font-weight:bold;
+    margin-top:25px;
+    text-align:left;
 }
 </style>
+
 </head>
+
 <body>
 
 <div class="container">
+
 <h1>Track Your Shipment</h1>
 
 <input
+type="text"
 id="tracking"
 placeholder="Enter Tracking Number">
 
@@ -51,34 +67,40 @@ placeholder="Enter Tracking Number">
 
 <button onclick="track()">Track</button>
 
-<p id="result"></p>
+<div id="result"></div>
+
 </div>
 
 <script>
-function track(){
-let number=document.getElementById("tracking").value;
-if(number==="HSDT123456789"){
-document.getElementById("result").innerHTML=
-document.getElementById("result").innerHTML = `
-<h3>Shipment Details</h3>
+function track() {
 
-<p><strong>Tracking Number:</strong> HSDT123456789</p>
+    let number = document.getElementById("tracking").value.trim().toUpperCase();
 
-<p><strong>Status:</strong> 🚚 Out for Delivery</p>
+    if(number === "HS100001"){
 
-<p><strong>Current Location:</strong> Lagos, Nigeria</p>
+        document.getElementById("result").innerHTML = `
+        <h2>Shipment Details</h2>
 
-<p><strong>Destination:</strong> Victoria Island, Lagos</p>
+        <p><strong>Tracking Number:</strong> HS100001</p>
 
-<p><strong>Estimated Delivery:</strong> July 15, 2026</p>
+        <p><strong>Status:</strong> Processing</p>
 
-<p><strong>Receiver:</strong> John Doe</p>
+        <p><strong>Current Location:</strong> Texas, USA</p>
 
-<p><strong>Package:</strong> Electronics</p>
-`;
-document.getElementById("result").innerHTML=
-❌ tracking number not found 
-{
+        <p><strong>Receiver:</strong> John Smith</p>
+
+        <p><strong>Estimated Delivery:</strong> July 20, 2026</p>
+
+        <p><strong>Package:</strong> Electronics</p>
+        `;
+
+    } else {
+
+        document.getElementById("result").innerHTML =
+        "<p style='color:red;font-weight:bold;'>❌ Tracking number not found.</p>";
+
+    }
+
 }
 </script>
 
