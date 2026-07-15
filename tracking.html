@@ -14,30 +14,39 @@ body{
 }
 
 .container{
-    background:white;
     max-width:600px;
     margin:auto;
+    background:white;
     padding:30px;
     border-radius:10px;
     box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+
+h1{
     text-align:center;
+    color:#003366;
 }
 
 input{
-    width:90%;
+    width:100%;
     padding:12px;
-    margin:15px 0;
+    margin-top:15px;
+    margin-bottom:20px;
+    border:1px solid #ccc;
+    border-radius:5px;
     font-size:16px;
+    box-sizing:border-box;
 }
 
 button{
-    padding:12px 25px;
+    width:100%;
+    padding:12px;
     background:#007BFF;
     color:white;
     border:none;
     border-radius:5px;
-    cursor:pointer;
     font-size:16px;
+    cursor:pointer;
 }
 
 button:hover{
@@ -46,10 +55,11 @@ button:hover{
 
 #result{
     margin-top:25px;
-    text-align:left;
+    padding:20px;
+    background:#f8f8f8;
+    border-radius:8px;
 }
 </style>
-
 </head>
 
 <body>
@@ -63,45 +73,73 @@ type="text"
 id="tracking"
 placeholder="Enter Tracking Number">
 
-<br>
-
-<button onclick="track()">Track</button>
+<button onclick="track()">Track Shipment</button>
 
 <div id="result"></div>
 
 </div>
 
-<script>
-function track() {
+<script type="module">
 
-    let number = document.getElementById("tracking").value.trim().toUpperCase();
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 
-    if(number === "HS100001"){
+import {
+getFirestore,
+doc,
+getDoc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-        document.getElementById("result").innerHTML = `
-        <h2>Shipment Details</h2>
+const firebaseConfig = {
+apiKey: "AIzaSyCrOslLxQGV_xBTWYgKcqvQbOwe1daWg2E",
+authDomain: "henry-shipping-delivery-team.firebaseapp.com",
+projectId: "henry-shipping-delivery-team",
+storageBucket: "henry-shipping-delivery-team.firebasestorage.app",
+messagingSenderId: "273718178411",
+appId: "1:273718178411:web:6d518fb7f9fe04f359b72e"
+};
 
-        <p><strong>Tracking Number:</strong> HS100001</p>
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-        <p><strong>Status:</strong> Processing</p>
+window.track = async function(){
 
-        <p><strong>Current Location:</strong> Texas, USA</p>
+const tracking=document.getElementById("tracking").value.trim();
 
-        <p><strong>Receiver:</strong> John Smith</p>
+if(tracking===""){
+document.getElementById("result").innerHTML="<p style='color:red;'>Please enter a tracking number.</p>";
+return;
+}
 
-        <p><strong>Estimated Delivery:</strong> July 20, 2026</p>
+const ref=doc(db,"shipments",tracking);
 
-        <p><strong>Package:</strong> Electronics</p>
-        `;
+const snap=await getDoc(ref);
 
-    } else {
+if(snap.exists()){
 
-        document.getElementById("result").innerHTML =
-        "<p style='color:red;font-weight:bold;'>❌ Tracking number not found.</p>";
+const data=snap.data();
 
-    }
+document.getElementById("result").innerHTML=`
+
+<h2>Shipment Details</h2>
+
+<p><strong>Tracking Number:</strong> ${tracking}</p>
+
+<p><strong>Status:</strong> ${data.status}</p>
+
+<p><strong>Current Location:</strong> ${data.location}</p>
+
+<p><strong>Receiver:</strong> ${data.receiver}</p>
+
+`;
+
+}else{
+
+document.getElementById("result").innerHTML="<p style='color:red;font-weight:bold;'>❌ Tracking number not found.</p>";
 
 }
+
+}
+
 </script>
 
 </body>
