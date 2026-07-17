@@ -19,7 +19,7 @@ body{
     background:white;
     padding:30px;
     border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,.2);
+    box-shadow:0 0 15px rgba(0,0,0,.15);
 }
 
 h1{
@@ -29,9 +29,8 @@ h1{
 
 input{
     width:100%;
-    padding:12px;
-    margin-top:15px;
-    margin-bottom:20px;
+    padding:15px;
+    margin:20px 0;
     border:1px solid #ccc;
     border-radius:5px;
     font-size:16px;
@@ -40,26 +39,27 @@ input{
 
 button{
     width:100%;
-    padding:12px;
-    background:#007BFF;
+    padding:15px;
+    background:#0057ff;
     color:white;
     border:none;
     border-radius:5px;
-    font-size:16px;
+    font-size:18px;
     cursor:pointer;
 }
 
 button:hover{
-    background:#0056b3;
+    background:#003ecc;
 }
 
 #result{
-    margin-top:25px;
+    margin-top:30px;
     padding:20px;
-    background:#f8f8f8;
+    background:#fafafa;
     border-radius:8px;
 }
 </style>
+
 </head>
 
 <body>
@@ -81,42 +81,45 @@ placeholder="Enter Tracking Number">
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
 import {
 getFirestore,
 doc,
 getDoc
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSyCrOslLxQGV_xBTWYgKcqvQbOwe1daWg2E",
+
+apiKey: "YOUR_API_KEY",
+
 authDomain: "henry-shipping-delivery-team.firebaseapp.com",
+
 projectId: "henry-shipping-delivery-team",
+
 storageBucket: "henry-shipping-delivery-team.firebasestorage.app",
+
 messagingSenderId: "273718178411",
+
 appId: "1:273718178411:web:6d518fb7f9fe04f359b72e"
+
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 
 window.track = async function(){
 
 const tracking=document.getElementById("tracking").value.trim();
 
-if(tracking===""){
-document.getElementById("result").innerHTML="<p style='color:red;'>Please enter a tracking number.</p>";
-return;
-}
+const docRef=doc(db,"shipments",tracking);
 
-const ref=doc(db,"shipments",tracking);
+const docSnap=await getDoc(docRef);
 
-const snap=await getDoc(ref);
+if(docSnap.exists()){
 
-if(snap.exists()){
-
-const data=snap.data();
+const data=docSnap.data();
 
 document.getElementById("result").innerHTML=`
 
@@ -130,11 +133,19 @@ document.getElementById("result").innerHTML=`
 
 <p><strong>Receiver:</strong> ${data.receiver}</p>
 
+<p><strong>Estimated Delivery:</strong> ${data.delivery || "Not Available"}</p>
+
+<p><strong>Package:</strong> ${data.package || "Not Available"}</p>
+
 `;
 
 }else{
 
-document.getElementById("result").innerHTML="<p style='color:red;font-weight:bold;'>❌ Tracking number not found.</p>";
+document.getElementById("result").innerHTML=`
+<p style="color:red;font-weight:bold;">
+❌ Tracking number not found.
+</p>
+`;
 
 }
 
