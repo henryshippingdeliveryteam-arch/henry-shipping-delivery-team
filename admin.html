@@ -3,73 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Login</title>
+<title>Admin Dashboard</title>
 
 <style>
 body{
 font-family:Arial,sans-serif;
-background:#f4f7fb;
-margin:0;
+background:#f4f4f4;
+padding:30px;
 }
 
 .container{
-width:350px;
-margin:100px auto;
+max-width:700px;
+margin:auto;
 background:white;
-padding:30px;
+padding:25px;
 border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,.2);
 }
 
-h2{
+h1{
 text-align:center;
+color:#003366;
 }
 
 input{
 width:100%;
 padding:12px;
 margin:10px 0;
+box-sizing:border-box;
 }
 
 button{
 width:100%;
-padding:12px;
-background:#003366;
+padding:14px;
+background:#0057ff;
 color:white;
 border:none;
+border-radius:5px;
+font-size:16px;
 cursor:pointer;
 }
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<h2>Admin Login</h2>
+<h1>Henry Shipping Admin</h1>
 
-<input type="text" id="username" placeholder="Username">
+<input placeholder="Tracking Number">
+<input placeholder="Receiver">
+<input placeholder="Current Location">
+<input placeholder="Status">
+<input placeholder="Estimated Delivery">
+<input placeholder="Package">
 
-<input type="password" id="password" placeholder="Password">
-
-<button onclick="login()">Login</button>
+<button>Save Shipment</button>
 
 </div>
-
-<script>
-function login(){
-
-let user=document.getElementById("username").value;
-let pass=document.getElementById("password").value;
-
-if(user==="admin" && pass==="12345"){
-window.location="dashboard.html";
-}else{
-alert("Invalid Username or Password");
-}
-
-}
-</script>
 
 </body>
 </html>
