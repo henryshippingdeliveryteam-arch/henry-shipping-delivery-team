@@ -279,6 +279,28 @@ document.getElementById("shipmentsList").innerHTML=html;
 
 }
 
+window.editShipment = async function(id){
+
+const shipment = prompt("Enter the new shipment status:");
+
+if(shipment == null || shipment == "") return;
+
+await setDoc(doc(db,"shipments",id),{
+
+receiver:"John Doe",
+location:"New York, USA",
+status:shipment,
+delivery:"July 30, 2026",
+package:"Documents"
+
+},{merge:true});
+
+alert("✅ Shipment updated successfully!");
+
+loadShipments();
+
+}
+  
 window.deleteShipment = async function(id){
 
 if(!confirm("Delete this shipment?")) return;
