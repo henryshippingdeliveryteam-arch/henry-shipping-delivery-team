@@ -258,6 +258,10 @@ html+=`
 
 <p><strong>Package:</strong> ${data.package || "Not Available"}</p>
 
+<button onclick="editShipment('${shipment.id}')">
+✏️ Edit Shipment
+</button>
+
 <button onclick="deleteShipment('${shipment.id}')">
 Delete Shipment
 </button>
