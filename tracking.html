@@ -125,6 +125,38 @@ document.getElementById("result").innerHTML=`
 
 <h2>Shipment Details</h2>
 
+<h3>Shipment Progress</h3>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin:20px 0;">
+
+<div style="text-align:center;">
+<div style="width:20px;height:20px;background:#28a745;border-radius:50%;margin:auto;"></div>
+<p>Received</p>
+</div>
+
+<div style="flex:1;height:4px;background:#28a745;"></div>
+
+<div style="text-align:center;">
+<div style="width:20px;height:20px;background:#28a745;border-radius:50%;margin:auto;"></div>
+<p>In Transit</p>
+</div>
+
+<div style="flex:1;height:4px;background:#ccc;"></div>
+
+<div style="text-align:center;">
+<div style="width:20px;height:20px;background:#ccc;border-radius:50%;margin:auto;"></div>
+<p>Out for Delivery</p>
+</div>
+
+<div style="flex:1;height:4px;background:#ccc;"></div>
+
+<div style="text-align:center;">
+<div style="width:20px;height:20px;background:#ccc;border-radius:50%;margin:auto;"></div>
+<p>Delivered</p>
+</div>
+
+</div>
+
 <p><strong>Tracking Number:</strong> ${tracking}</p>
 
 <p><strong>Status:</strong> ${data.status}</p>
