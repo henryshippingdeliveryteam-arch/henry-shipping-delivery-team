@@ -258,6 +258,10 @@ html+=`
 
 <p><strong>Package:</strong> ${data.package || "Not Available"}</p>
 
+<button onclick="deleteShipment('${shipment.id}')">
+Delete Shipment
+</button>
+
 </div>
 `;
 
@@ -271,6 +275,16 @@ document.getElementById("shipmentsList").innerHTML=html;
 
 }
 
+window.deleteShipment = async function(id){
+
+if(!confirm("Delete this shipment?")) return;
+
+await deleteDoc(doc(db,"shipments",id));
+
+loadShipments();
+
+}  
+  
 loadShipments();
 
 </script>
