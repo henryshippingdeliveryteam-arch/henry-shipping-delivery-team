@@ -243,11 +243,31 @@ async function loadShipments(){
 
 const snapshot=await getDocs(collection(db,"shipments"));
 
+let total = 0;
+let transit = 0;
+let processing = 0;
+let delivered = 0;
+  
 let html="";
+let total = 0;
 
 snapshot.forEach((shipment)=>{
 
 const data=shipment.data();
+
+total++;
+
+if(data.status === "In Transit"){
+    transit++;
+}
+
+if(data.status === "Processing"){
+    processing++;
+}
+
+if(data.status === "Delivered"){
+    delivered++;
+}
 
 html+=`
 <div class="shipment">
@@ -281,7 +301,15 @@ if(html===""){
 html="<p>No shipments found.</p>";
 }
 
+document.getElementById("totalShipments").innerHTML = total;
+  
 document.getElementById("shipmentsList").innerHTML=html;
+
+
+document.getElementById("totalShipments").textContent = total;
+document.getElementById("inTransit").textContent = transit;
+document.getElementById("processing").textContent = processing;
+document.getElementById("delivered").textContent = delivered; 
 
 }
 
