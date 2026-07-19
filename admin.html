@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
+
+<title>Henry Shipping Admin Dashboard</title>
 
 <style>
+
 body{
 font-family:Arial,sans-serif;
 background:#f4f4f4;
+margin:0;
 padding:30px;
 }
 
@@ -30,6 +34,7 @@ input{
 width:100%;
 padding:12px;
 margin:10px 0;
+font-size:16px;
 box-sizing:border-box;
 }
 
@@ -42,7 +47,20 @@ border:none;
 border-radius:5px;
 font-size:16px;
 cursor:pointer;
+margin-top:15px;
 }
+
+button:hover{
+background:#003bb3;
+}
+
+#message{
+margin-top:20px;
+padding:10px;
+font-weight:bold;
+text-align:center;
+}
+
 </style>
 
 </head>
@@ -51,18 +69,131 @@ cursor:pointer;
 
 <div class="container">
 
-<h1>Henry Shipping Admin</h1>
+<h1>Henry Shipping Admin Dashboard</h1>
 
-<input placeholder="Tracking Number">
-<input placeholder="Receiver">
-<input placeholder="Current Location">
-<input placeholder="Status">
-<input placeholder="Estimated Delivery">
-<input placeholder="Package">
+<input
+type="text"
+id="tracking"
+placeholder="Tracking Number (Example: HS100002)">
 
-<button>Save Shipment</button>
+<input
+type="text"
+id="receiver"
+placeholder="Receiver Name">
+
+<input
+type="text"
+id="location"
+placeholder="Current Location">
+
+<input
+type="text"
+id="status"
+placeholder="Shipment Status">
+
+<input
+type="text"
+id="delivery"
+placeholder="Estimated Delivery">
+
+<input
+type="text"
+id="package"
+placeholder="Package">
+
+<button onclick="saveShipment()">
+Save Shipment
+</button>
+
+<div id="message"></div>
 
 </div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getFirestore,
+doc,
+setDoc
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyCrOslLxQGV_xBTWYgKcqvQbOwe1daWg2E",
+
+authDomain: "henry-shipping-delivery-team.firebaseapp.com",
+
+projectId: "henry-shipping-delivery-team",
+
+storageBucket: "henry-shipping-delivery-team.firebasestorage.app",
+
+messagingSenderId: "273718178411",
+
+appId: "1:273718178411:web:6d518fb7f9fe04f359b72e"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+window.saveShipment = async function () {
+
+const tracking = document.getElementById("tracking").value.trim();
+const receiver = document.getElementById("receiver").value.trim();
+const location = document.getElementById("location").value.trim();
+const status = document.getElementById("status").value.trim();
+const delivery = document.getElementById("delivery").value.trim();
+const packageName = document.getElementById("package").value.trim();
+
+if (
+tracking === "" ||
+receiver === "" ||
+location === "" ||
+status === ""
+) {
+
+document.getElementById("message").innerHTML =
+"<span style='color:red;'>Please fill in all required fields.</span>";
+
+return;
+
+}
+
+try {
+
+await setDoc(doc(db, "shipments", tracking), {
+
+receiver: receiver,
+location: location,
+status: status,
+delivery: delivery,
+package: packageName
+
+});
+
+document.getElementById("message").innerHTML =
+"<span style='color:green;'>✅ Shipment saved successfully!</span>";
+
+document.getElementById("tracking").value = "";
+document.getElementById("receiver").value = "";
+document.getElementById("location").value = "";
+document.getElementById("status").value = "";
+document.getElementById("delivery").value = "";
+document.getElementById("package").value = "";
+
+} catch (error) {
+
+document.getElementById("message").innerHTML =
+"<span style='color:red;'>❌ Error: " + error.message + "</span>";
+
+}
+
+};
+
+</script>
 
 </body>
 </html>
