@@ -17,7 +17,7 @@ padding:30px;
 }
 
 .container{
-max-width:800px;
+max-width:1000px;
 margin:auto;
 background:white;
 padding:25px;
@@ -28,6 +28,36 @@ box-shadow:0 0 10px rgba(0,0,0,.2);
 h1{
 text-align:center;
 color:#003366;
+margin-bottom:25px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+margin-bottom:25px;
+}
+
+.card{
+padding:20px;
+border-radius:8px;
+color:white;
+text-align:center;
+font-weight:bold;
+}
+
+.blue{background:#0057ff;}
+.green{background:#28a745;}
+.orange{background:#ff9800;}
+.red{background:#dc3545;}
+
+.card h2{
+margin:0;
+font-size:32px;
+}
+
+.card p{
+margin-top:8px;
 }
 
 input{
@@ -36,6 +66,8 @@ padding:12px;
 margin:10px 0;
 font-size:16px;
 box-sizing:border-box;
+border:1px solid #ccc;
+border-radius:5px;
 }
 
 button{
@@ -69,6 +101,15 @@ border-radius:8px;
 background:#fafafa;
 }
 
+.deleteBtn{
+background:#dc3545;
+margin-top:10px;
+}
+
+.deleteBtn:hover{
+background:#b02a37;
+}
+
 </style>
 
 </head>
@@ -79,59 +120,41 @@ background:#fafafa;
 
 <h1>Henry Shipping Admin Dashboard</h1>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin:25px 0;">
+<div class="stats">
 
-<div style="background:#0057ff;color:white;padding:20px;border-radius:10px;text-align:center;">
+<div class="card blue">
 <h2 id="totalShipments">0</h2>
 <p>Total Shipments</p>
 </div>
 
-<div style="background:#28a745;color:white;padding:20px;border-radius:10px;text-align:center;">
+<div class="card green">
 <h2 id="inTransit">0</h2>
 <p>In Transit</p>
 </div>
 
-<div style="background:#ff9800;color:white;padding:20px;border-radius:10px;text-align:center;">
+<div class="card orange">
 <h2 id="processing">0</h2>
 <p>Processing</p>
 </div>
 
-<div style="background:#6c757d;color:white;padding:20px;border-radius:10px;text-align:center;">
+<div class="card red">
 <h2 id="delivered">0</h2>
 <p>Delivered</p>
 </div>
 
-  </div>
+</div>
 
-<input
-type="text"
-id="tracking"
-placeholder="Tracking Number">
+<input type="text" id="tracking" placeholder="Tracking Number">
 
-<input
-type="text"
-id="receiver"
-placeholder="Receiver Name">
+<input type="text" id="receiver" placeholder="Receiver Name">
 
-<input
-type="text"
-id="location"
-placeholder="Current Location">
+<input type="text" id="location" placeholder="Current Location">
 
-<input
-type="text"
-id="status"
-placeholder="Shipment Status">
+<input type="text" id="status" placeholder="Shipment Status">
 
-<input
-type="text"
-id="delivery"
-placeholder="Estimated Delivery">
+<input type="text" id="delivery" placeholder="Estimated Delivery">
 
-<input
-type="text"
-id="package"
-placeholder="Package">
+<input type="text" id="package" placeholder="Package">
 
 <button onclick="saveShipment()">
 Save Shipment
@@ -142,12 +165,6 @@ Save Shipment
 <hr>
 
 <h2>Saved Shipments</h2>
-
-<input
-type="text"
-id="search"
-placeholder="Search by Tracking Number"
-onkeyup="searchShipments()">
 
 <div id="shipmentsList">
 Loading shipments...
@@ -167,6 +184,7 @@ deleteDoc,
 collection,
 getDocs
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
 const firebaseConfig = {
 
 apiKey:"AIzaSyCrOslLxQGV_xBTWYgKcqvQbOwe1daWg2E",
@@ -183,25 +201,25 @@ appId:"1:273718178411:web:6d518fb7f9fe04f359b72e"
 
 };
 
-const app=initializeApp(firebaseConfig);
-
-const db=getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 window.saveShipment = async function(){
 
-const tracking=document.getElementById("tracking").value.trim();
-const receiver=document.getElementById("receiver").value.trim();
-const location=document.getElementById("location").value.trim();
-const status=document.getElementById("status").value.trim();
-const delivery=document.getElementById("delivery").value.trim();
-const packageName=document.getElementById("package").value.trim();
+const tracking = document.getElementById("tracking").value.trim();
+const receiver = document.getElementById("receiver").value.trim();
+const location = document.getElementById("location").value.trim();
+const status = document.getElementById("status").value.trim();
+const delivery = document.getElementById("delivery").value.trim();
+const packageName = document.getElementById("package").value.trim();
 
 if(
-tracking===""||
-receiver===""||
-location===""||
-status===""){
-document.getElementById("message").innerHTML=
+tracking === "" ||
+receiver === "" ||
+location === "" ||
+status === ""
+){
+document.getElementById("message").innerHTML =
 "<span style='color:red;'>Please fill in all required fields.</span>";
 return;
 }
@@ -218,7 +236,7 @@ package:packageName
 
 });
 
-document.getElementById("message").innerHTML=
+document.getElementById("message").innerHTML =
 "<span style='color:green;'>✅ Shipment saved successfully!</span>";
 
 document.getElementById("tracking").value="";
@@ -232,7 +250,7 @@ loadShipments();
 
 }catch(error){
 
-document.getElementById("message").innerHTML=
+document.getElementById("message").innerHTML =
 "<span style='color:red;'>❌ "+error.message+"</span>";
 
 }
@@ -241,35 +259,35 @@ document.getElementById("message").innerHTML=
 
 async function loadShipments(){
 
-const snapshot=await getDocs(collection(db,"shipments"));
+const snapshot = await getDocs(collection(db,"shipments"));
+
+let html = "";
 
 let total = 0;
 let transit = 0;
 let processing = 0;
 let delivered = 0;
-  
-let html="";
-let total = 0;
 
 snapshot.forEach((shipment)=>{
 
-const data=shipment.data();
+const data = shipment.data();
 
 total++;
 
 if(data.status === "In Transit"){
-    transit++;
+transit++;
 }
 
 if(data.status === "Processing"){
-    processing++;
+processing++;
 }
 
 if(data.status === "Delivered"){
-    delivered++;
+delivered++;
 }
 
-html+=`
+html += `
+
 <div class="shipment">
 
 <h3>${shipment.id}</h3>
@@ -284,90 +302,55 @@ html+=`
 
 <p><strong>Package:</strong> ${data.package || "Not Available"}</p>
 
-<button onclick="editShipment('${shipment.id}')">
-✏️ Edit Shipment
-</button>
-
-<button onclick="deleteShipment('${shipment.id}')">
+<button class="deleteBtn"
+onclick="deleteShipment('${shipment.id}')">
 Delete Shipment
 </button>
 
 </div>
+
 `;
 
 });
 
-if(html===""){
-html="<p>No shipments found.</p>";
+if(html === ""){
+html = "<p>No shipments found.</p>";
 }
-
-document.getElementById("totalShipments").innerHTML = total;
-  
-document.getElementById("shipmentsList").innerHTML=html;
-
 
 document.getElementById("totalShipments").textContent = total;
 document.getElementById("inTransit").textContent = transit;
 document.getElementById("processing").textContent = processing;
-document.getElementById("delivered").textContent = delivered; 
+document.getElementById("delivered").textContent = delivered;
+
+document.getElementById("shipmentsList").innerHTML = html;
 
 }
 
-window.editShipment = async function(id){
-
-const shipment = prompt("Enter the new shipment status:");
-
-if(shipment == null || shipment == "") return;
-
-await setDoc(doc(db,"shipments",id),{
-
-receiver:"John Doe",
-location:"New York, USA",
-status:shipment,
-delivery:"July 30, 2026",
-package:"Documents"
-
-},{merge:true});
-
-alert("✅ Shipment updated successfully!");
-
-loadShipments();
-
-}
-  
 window.deleteShipment = async function(id){
 
-if(!confirm("Delete this shipment?")) return;
+const ok = confirm("Delete this shipment?");
+
+if(!ok) return;
+
+try{
 
 await deleteDoc(doc(db,"shipments",id));
 
-loadShipments();
-
-}  
-  
-loadShipments();
+document.getElementById("message").innerHTML =
+"<span style='color:green;'>✅ Shipment deleted successfully!</span>";
 
 loadShipments();
 
-window.searchShipments = function(){
+}catch(error){
 
-const search = document.getElementById("search").value.toUpperCase();
+document.getElementById("message").innerHTML =
+"<span style='color:red;'>❌ " + error.message + "</span>";
 
-const shipments = document.getElementsByClassName("shipment");
-
-for(let i = 0; i < shipments.length; i++){
-
-const text = shipments[i].innerText.toUpperCase();
-
-if(text.includes(search)){
-shipments[i].style.display = "block";
-}else{
-shipments[i].style.display = "none";
 }
 
 }
 
-}
+loadShipments();
 
 </script>
 
