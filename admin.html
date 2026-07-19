@@ -143,6 +143,12 @@ Save Shipment
 
 <h2>Saved Shipments</h2>
 
+<input
+type="text"
+id="search"
+placeholder="Search by Tracking Number"
+onkeyup="searchShipments()">
+
 <div id="shipmentsList">
 Loading shipments...
 </div>
@@ -312,6 +318,28 @@ loadShipments();
 }  
   
 loadShipments();
+
+loadShipments();
+
+window.searchShipments = function(){
+
+const search = document.getElementById("search").value.toUpperCase();
+
+const shipments = document.getElementsByClassName("shipment");
+
+for(let i = 0; i < shipments.length; i++){
+
+const text = shipments[i].innerText.toUpperCase();
+
+if(text.includes(search)){
+shipments[i].style.display = "block";
+}else{
+shipments[i].style.display = "none";
+}
+
+}
+
+}
 
 </script>
 
