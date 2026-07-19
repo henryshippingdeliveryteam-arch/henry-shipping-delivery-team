@@ -17,7 +17,7 @@ padding:30px;
 }
 
 .container{
-max-width:700px;
+max-width:800px;
 margin:auto;
 background:white;
 padding:25px;
@@ -61,6 +61,14 @@ font-weight:bold;
 text-align:center;
 }
 
+.shipment{
+border:1px solid #ddd;
+padding:15px;
+margin-top:15px;
+border-radius:8px;
+background:#fafafa;
+}
+
 </style>
 
 </head>
@@ -74,7 +82,7 @@ text-align:center;
 <input
 type="text"
 id="tracking"
-placeholder="Tracking Number (Example: HS100002)">
+placeholder="Tracking Number">
 
 <input
 type="text"
@@ -107,6 +115,14 @@ Save Shipment
 
 <div id="message"></div>
 
+<hr>
+
+<h2>Saved Shipments</h2>
+
+<div id="shipmentsList">
+Loading shipments...
+</div>
+
 </div>
 
 <script type="module">
@@ -116,82 +132,122 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/fireba
 import {
 getFirestore,
 doc,
-setDoc
+setDoc,
+collection,
+getDocs
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyCrOslLxQGV_xBTWYgKcqvQbOwe1daWg2E",
+apiKey:"AIzaSyCrOslLxQGV_xBTWYgKcqvQbOwe1daWg2E",
 
-authDomain: "henry-shipping-delivery-team.firebaseapp.com",
+authDomain:"henry-shipping-delivery-team.firebaseapp.com",
 
-projectId: "henry-shipping-delivery-team",
+projectId:"henry-shipping-delivery-team",
 
-storageBucket: "henry-shipping-delivery-team.firebasestorage.app",
+storageBucket:"henry-shipping-delivery-team.firebasestorage.app",
 
-messagingSenderId: "273718178411",
+messagingSenderId:"273718178411",
 
-appId: "1:273718178411:web:6d518fb7f9fe04f359b72e"
+appId:"1:273718178411:web:6d518fb7f9fe04f359b72e"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app=initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db=getFirestore(app);
 
-window.saveShipment = async function () {
+window.saveShipment = async function(){
 
-const tracking = document.getElementById("tracking").value.trim();
-const receiver = document.getElementById("receiver").value.trim();
-const location = document.getElementById("location").value.trim();
-const status = document.getElementById("status").value.trim();
-const delivery = document.getElementById("delivery").value.trim();
-const packageName = document.getElementById("package").value.trim();
+const tracking=document.getElementById("tracking").value.trim();
+const receiver=document.getElementById("receiver").value.trim();
+const location=document.getElementById("location").value.trim();
+const status=document.getElementById("status").value.trim();
+const delivery=document.getElementById("delivery").value.trim();
+const packageName=document.getElementById("package").value.trim();
 
-if (
-tracking === "" ||
-receiver === "" ||
-location === "" ||
-status === ""
-) {
-
-document.getElementById("message").innerHTML =
+if(
+tracking===""||
+receiver===""||
+location===""||
+status===""){
+document.getElementById("message").innerHTML=
 "<span style='color:red;'>Please fill in all required fields.</span>";
-
 return;
-
 }
 
-try {
+try{
 
-await setDoc(doc(db, "shipments", tracking), {
+await setDoc(doc(db,"shipments",tracking),{
 
-receiver: receiver,
-location: location,
-status: status,
-delivery: delivery,
-package: packageName
+receiver:receiver,
+location:location,
+status:status,
+delivery:delivery,
+package:packageName
 
 });
 
-document.getElementById("message").innerHTML =
+document.getElementById("message").innerHTML=
 "<span style='color:green;'>✅ Shipment saved successfully!</span>";
 
-document.getElementById("tracking").value = "";
-document.getElementById("receiver").value = "";
-document.getElementById("location").value = "";
-document.getElementById("status").value = "";
-document.getElementById("delivery").value = "";
-document.getElementById("package").value = "";
+document.getElementById("tracking").value="";
+document.getElementById("receiver").value="";
+document.getElementById("location").value="";
+document.getElementById("status").value="";
+document.getElementById("delivery").value="";
+document.getElementById("package").value="";
 
-} catch (error) {
+loadShipments();
 
-document.getElementById("message").innerHTML =
-"<span style='color:red;'>❌ Error: " + error.message + "</span>";
+}catch(error){
+
+document.getElementById("message").innerHTML=
+"<span style='color:red;'>❌ "+error.message+"</span>";
 
 }
 
-};
+}
+
+async function loadShipments(){
+
+const snapshot=await getDocs(collection(db,"shipments"));
+
+let html="";
+
+snapshot.forEach((shipment)=>{
+
+const data=shipment.data();
+
+html+=`
+<div class="shipment">
+
+<h3>${shipment.id}</h3>
+
+<p><strong>Receiver:</strong> ${data.receiver}</p>
+
+<p><strong>Status:</strong> ${data.status}</p>
+
+<p><strong>Location:</strong> ${data.location}</p>
+
+<p><strong>Estimated Delivery:</strong> ${data.delivery || "Not Available"}</p>
+
+<p><strong>Package:</strong> ${data.package || "Not Available"}</p>
+
+</div>
+`;
+
+});
+
+if(html===""){
+html="<p>No shipments found.</p>";
+}
+
+document.getElementById("shipmentsList").innerHTML=html;
+
+}
+
+loadShipments();
 
 </script>
 
