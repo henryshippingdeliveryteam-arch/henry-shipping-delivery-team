@@ -99,10 +99,12 @@ Henry Shipping
 <div class="container">
 
 <h1 style="text-align:center;color:#003366;">
-
 Admin Dashboard
-
 </h1>
+
+<div style="text-align:right; margin:15px 0;">
+  <button onclick="logout()">Logout</button>
+</div>
 
 <div class="dashboard">
 
@@ -191,14 +193,19 @@ Loading...
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
 import {
-getFirestore,
-collection,
-getDocs,
-doc,
-setDoc,
-deleteDoc
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  deleteDoc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
+import {
+  getAuth,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 const firebaseConfig={
 
 apiKey:"AIzaSyCrOslLxQGV_xBTWYgKcqvQbOwe1daWg2E",
@@ -216,6 +223,14 @@ appId:"1:273718178411:web:6d518fb7f9fe04f359b72e"
 };
 
 const app=initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
 
 const db=getFirestore(app);
 
@@ -403,6 +418,11 @@ shipment.innerText.toLowerCase().includes(input)
 };
 
 loadShipments();
+
+window.logout = async function () {
+  await signOut(auth);
+  window.location.href = "login.html";
+};
 
 </script>
 
