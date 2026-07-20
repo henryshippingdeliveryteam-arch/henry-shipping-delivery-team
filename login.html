@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Login | Henry Shipping</title>
+<title>Henry Shipping Admin Login</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -20,9 +20,9 @@ Henry Shipping Admin Login
 </h1>
 
 <input
-type="text"
-id="username"
-placeholder="Username">
+type="email"
+id="email"
+placeholder="Email Address">
 
 <input
 type="password"
@@ -33,26 +33,55 @@ placeholder="Password">
 Login
 </button>
 
-<p id="message" style="text-align:center;margin-top:20px;"></p>
+<p id="message"></p>
 
 </div>
 
-<script>
+<script type="module">
 
-function login(){
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
-const username=document.getElementById("username").value.trim();
+import {
+getAuth,
+signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-const password=document.getElementById("password").value.trim();
+const firebaseConfig = {
 
-if(username==="admin" && password==="Henry123"){
+apiKey:"AIzaSyCrOslLxQGV_xBTWYgKcqvQbOwe1daWg2E",
+
+authDomain:"henry-shipping-delivery-team.firebaseapp.com",
+
+projectId:"henry-shipping-delivery-team",
+
+storageBucket:"henry-shipping-delivery-team.firebasestorage.app",
+
+messagingSenderId:"273718178411",
+
+appId:"1:273718178411:web:6d518fb7f9fe04f359b72e"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+window.login = async function(){
+
+const email = document.getElementById("email").value.trim();
+
+const password = document.getElementById("password").value.trim();
+
+try{
+
+await signInWithEmailAndPassword(auth,email,password);
 
 window.location.href="admin.html";
 
-}else{
+}catch(error){
 
-document.getElementById("message").innerHTML=
-"<span style='color:red;'>Invalid username or password.</span>";
+document.getElementById("message").innerHTML =
+"<span style='color:red;'>"+error.message+"</span>";
 
 }
 
@@ -61,4 +90,5 @@ document.getElementById("message").innerHTML=
 </script>
 
 </body>
+
 </html>
