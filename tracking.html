@@ -112,6 +112,35 @@ if(docSnap.exists()){
 
 const data=docSnap.data();
 
+const status = shipment.status;
+
+document.getElementById("processingStep").classList.remove("active");
+document.getElementById("transitStep").classList.remove("active");
+document.getElementById("deliveryStep").classList.remove("active");
+document.getElementById("deliveredStep").classList.remove("active");
+
+if (status === "Processing") {
+    document.getElementById("processingStep").classList.add("active");
+}
+
+if (status === "In Transit") {
+    document.getElementById("processingStep").classList.add("active");
+    document.getElementById("transitStep").classList.add("active");
+}
+
+if (status === "Out for Delivery") {
+    document.getElementById("processingStep").classList.add("active");
+    document.getElementById("transitStep").classList.add("active");
+    document.getElementById("deliveryStep").classList.add("active");
+}
+
+if (status === "Delivered") {
+    document.getElementById("processingStep").classList.add("active");
+    document.getElementById("transitStep").classList.add("active");
+    document.getElementById("deliveryStep").classList.add("active");
+    document.getElementById("deliveredStep").classList.add("active");
+}
+
 document.getElementById("result").innerHTML=`
 
 <div class="card">
