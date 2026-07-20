@@ -110,38 +110,9 @@ const docSnap=await getDoc(docRef);
 
 if(docSnap.exists()){
 
-const data=docSnap.data();
+const data = docSnap.data();
 
-const status = shipment.status;
-
-document.getElementById("processingStep").classList.remove("active");
-document.getElementById("transitStep").classList.remove("active");
-document.getElementById("deliveryStep").classList.remove("active");
-document.getElementById("deliveredStep").classList.remove("active");
-
-if (status === "Processing") {
-    document.getElementById("processingStep").classList.add("active");
-}
-
-if (status === "In Transit") {
-    document.getElementById("processingStep").classList.add("active");
-    document.getElementById("transitStep").classList.add("active");
-}
-
-if (status === "Out for Delivery") {
-    document.getElementById("processingStep").classList.add("active");
-    document.getElementById("transitStep").classList.add("active");
-    document.getElementById("deliveryStep").classList.add("active");
-}
-
-if (status === "Delivered") {
-    document.getElementById("processingStep").classList.add("active");
-    document.getElementById("transitStep").classList.add("active");
-    document.getElementById("deliveryStep").classList.add("active");
-    document.getElementById("deliveredStep").classList.add("active");
-}
-
-document.getElementById("result").innerHTML=`
+document.getElementById("result").innerHTML = `
 
 <div class="card">
 
@@ -155,12 +126,9 @@ document.getElementById("result").innerHTML=`
 
 <p><strong>Current Location:</strong> ${data.location}</p>
 
-<p><strong>Estimated Delivery:</strong> ${data.delivery}</p>
+<p><strong>Estimated Delivery:</strong> ${data.delivery || "Not Available"}</p>
 
-<p><strong>Package:</strong> ${data.package}</p>
-
-</div>
-
+<p><strong>Package:</strong> ${data.package || "Not Available"}</p>
 
 <h2>Shipment Progress</h2>
 
@@ -176,9 +144,33 @@ document.getElementById("result").innerHTML=`
 
 </div>
 
+</div>
+
 `;
 
-}else{
+const status = data.status;
+
+if(status==="Processing"){
+document.getElementById("processingStep").classList.add("active");
+}
+
+if(status==="In Transit"){
+document.getElementById("processingStep").classList.add("active");
+document.getElementById("transitStep").classList.add("active");
+}
+
+if(status==="Out for Delivery"){
+document.getElementById("processingStep").classList.add("active");
+document.getElementById("transitStep").classList.add("active");
+document.getElementById("deliveryStep").classList.add("active");
+}
+
+if(status==="Delivered"){
+document.getElementById("processingStep").classList.add("active");
+document.getElementById("transitStep").classList.add("active");
+document.getElementById("deliveryStep").classList.add("active");
+document.getElementById("deliveredStep").classList.add("active");
+}
 
 document.getElementById("result").innerHTML=`
 
