@@ -1,83 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Track Shipment - Henry Shipping Delivery Team</title>
 
-<style>
-body{
-    font-family:Arial,sans-serif;
-    background:#f4f4f4;
-    margin:0;
-    padding:40px;
-}
+<title>Track Shipment | Henry Shipping</title>
 
-.container{
-    max-width:600px;
-    margin:auto;
-    background:white;
-    padding:30px;
-    border-radius:10px;
-    box-shadow:0 0 15px rgba(0,0,0,.15);
-}
-
-h1{
-    text-align:center;
-    color:#003366;
-}
-
-input{
-    width:100%;
-    padding:15px;
-    margin:20px 0;
-    border:1px solid #ccc;
-    border-radius:5px;
-    font-size:16px;
-    box-sizing:border-box;
-}
-
-button{
-    width:100%;
-    padding:15px;
-    background:#0057ff;
-    color:white;
-    border:none;
-    border-radius:5px;
-    font-size:18px;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#003ecc;
-}
-
-#result{
-    margin-top:30px;
-    padding:20px;
-    background:#fafafa;
-    border-radius:8px;
-}
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
+<header>
+
+<div class="logo">
+Henry Shipping
+</div>
+
+<nav>
+
+<a href="index.html">Home</a>
+
+<a href="tracking.html">Track</a>
+
+<a href="services.html">Services</a>
+
+<a href="about.html">About</a>
+
+<a href="contact.html">Contact</a>
+
+</nav>
+
+</header>
+
 <div class="container">
 
-<h1>Track Your Shipment</h1>
+<h1 style="text-align:center;color:#003366;">
+Track Your Shipment
+</h1>
 
 <input
 type="text"
 id="tracking"
 placeholder="Enter Tracking Number">
 
-<button onclick="track()">Track Shipment</button>
+<button onclick="track()">
 
-<div id="result"></div>
+Track Shipment
+
+</button>
+
+<div id="result" style="margin-top:30px;"></div>
 
 </div>
+
+<footer>
+
+<p>© 2026 Henry Shipping Delivery Team</p>
+
+</footer>
 
 <script type="module">
 
@@ -89,29 +72,37 @@ doc,
 getDoc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-const firebaseConfig = {
+const firebaseConfig={
 
-apiKey: "AIzaSyCrOslLxQGV_xBTWYgKcqvQbOwe1daWg2E",
+apiKey:"AIzaSyCrOslLxQGV_xBTWYgKcqvQbOwe1daWg2E",
 
-authDomain: "henry-shipping-delivery-team.firebaseapp.com",
+authDomain:"henry-shipping-delivery-team.firebaseapp.com",
 
-projectId: "henry-shipping-delivery-team",
+projectId:"henry-shipping-delivery-team",
 
-storageBucket: "henry-shipping-delivery-team.firebasestorage.app",
+storageBucket:"henry-shipping-delivery-team.firebasestorage.app",
 
-messagingSenderId: "273718178411",
+messagingSenderId:"273718178411",
 
-appId: "1:273718178411:web:6d518fb7f9fe04f359b72e"
+appId:"1:273718178411:web:6d518fb7f9fe04f359b72e"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app=initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db=getFirestore(app);
 
-window.track = async function(){
+window.track=async function(){
 
 const tracking=document.getElementById("tracking").value.trim();
+
+if(tracking===""){
+
+document.getElementById("result").innerHTML="<p>Please enter a tracking number.</p>";
+
+return;
+
+}
 
 const docRef=doc(db,"shipments",tracking);
 
@@ -123,60 +114,42 @@ const data=docSnap.data();
 
 document.getElementById("result").innerHTML=`
 
-<h2>Shipment Details</h2>
+<div class="card">
 
-<h3>Shipment Progress</h3>
-
-<div style="display:flex;justify-content:space-between;align-items:center;margin:20px 0;">
-
-<div style="text-align:center;">
-<div style="width:20px;height:20px;background:#28a745;border-radius:50%;margin:auto;"></div>
-<p>Received</p>
-</div>
-
-<div style="flex:1;height:4px;background:#28a745;"></div>
-
-<div style="text-align:center;">
-<div style="width:20px;height:20px;background:#28a745;border-radius:50%;margin:auto;"></div>
-<p>In Transit</p>
-</div>
-
-<div style="flex:1;height:4px;background:#ccc;"></div>
-
-<div style="text-align:center;">
-<div style="width:20px;height:20px;background:#ccc;border-radius:50%;margin:auto;"></div>
-<p>Out for Delivery</p>
-</div>
-
-<div style="flex:1;height:4px;background:#ccc;"></div>
-
-<div style="text-align:center;">
-<div style="width:20px;height:20px;background:#ccc;border-radius:50%;margin:auto;"></div>
-<p>Delivered</p>
-</div>
-
-</div>
+<h2>Shipment Found</h2>
 
 <p><strong>Tracking Number:</strong> ${tracking}</p>
+
+<p><strong>Receiver:</strong> ${data.receiver}</p>
 
 <p><strong>Status:</strong> ${data.status}</p>
 
 <p><strong>Current Location:</strong> ${data.location}</p>
 
-<p><strong>Receiver:</strong> ${data.receiver}</p>
+<p><strong>Estimated Delivery:</strong> ${data.delivery}</p>
 
-<p><strong>Estimated Delivery:</strong> ${data.delivery || "Not Available"}</p>
+<p><strong>Package:</strong> ${data.package}</p>
 
-<p><strong>Package:</strong> ${data.package || "Not Available"}</p>
+</div>
 
 `;
 
 }else{
 
 document.getElementById("result").innerHTML=`
-<p style="color:red;font-weight:bold;">
-❌ Tracking number not found.
+
+<div class="card">
+
+<h2 style="color:red;">
+Tracking Number Not Found
+</h2>
+
+<p>
+Please check your tracking number and try again.
 </p>
+
+</div>
+
 `;
 
 }
