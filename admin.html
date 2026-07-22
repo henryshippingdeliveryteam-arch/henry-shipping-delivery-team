@@ -150,6 +150,8 @@ Admin Dashboard
 
 <input id="receiver" placeholder="Receiver Name">
 
+<input id="courier" placeholder="Courier Name">
+
 <input id="location" placeholder="Current Location">
 
 <textarea id="history" placeholder="Shipment History"></textarea>
@@ -257,6 +259,8 @@ const tracking=document.getElementById("tracking").value.trim();
 
 const receiver=document.getElementById("receiver").value.trim();
 
+const courier=document.getElementById("courier").value.trim();
+
 const location=document.getElementById("location").value.trim();
 
 const status=document.getElementById("status").value.trim();
@@ -267,7 +271,11 @@ const packageName=document.getElementById("package").value.trim();
 
 const photo=document.getElementById("photo").value.trim();
 
-const history=document.getElementById("history").value.trim();
+const oldHistory=document.getElementById("history").value.trim();
+
+const history=
+`${new Date().toLocaleString()} - ${status} - ${location}
+${oldHistory}`;
 
 if(!tracking||!receiver||!location||!status){
 
@@ -282,9 +290,11 @@ try {
 await setDoc(doc(db,"shipments",tracking),{
 
 receiver,
-
+  
+courier,
+  
 location,
-
+  
 status,
 
 delivery,
