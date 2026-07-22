@@ -211,3 +211,20 @@ background:#28a745;
 color:white;
 box-shadow:0 0 10px rgba(40,167,69,.4);
 }
+
+.mapBtn{
+display:inline-block;
+margin-top:15px;
+padding:12px 20px;
+background:#0057ff;
+color:white;
+text-decoration:none;
+font-weight:bold;
+border-radius:8px;
+transition:.3s;
+}
+
+.mapBtn:hover{
+background:#003bb3;
+transform:scale(1.05);
+}
