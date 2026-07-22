@@ -151,25 +151,25 @@ document.getElementById("result").innerHTML = `
 const status = data.status;
 
 if(status==="Processing"){
-document.getElementById("processingStep").classList.add("active");
+processingStep.classList.add("active");
 }
 
 if(status==="In Transit"){
-document.getElementById("processingStep").classList.add("active");
-document.getElementById("transitStep").classList.add("active");
+processingStep.classList.add("completed");
+transitStep.classList.add("active");
 }
 
 if(status==="Out for Delivery"){
-document.getElementById("processingStep").classList.add("active");
-document.getElementById("transitStep").classList.add("active");
-document.getElementById("deliveryStep").classList.add("active");
+processingStep.classList.add("completed");
+transitStep.classList.add("completed");
+deliveryStep.classList.add("active");
 }
 
 if(status==="Delivered"){
-document.getElementById("processingStep").classList.add("active");
-document.getElementById("transitStep").classList.add("active");
-document.getElementById("deliveryStep").classList.add("active");
-document.getElementById("deliveredStep").classList.add("active");
+processingStep.classList.add("completed");
+transitStep.classList.add("completed");
+deliveryStep.classList.add("completed");
+deliveredStep.classList.add("active");
 }
 
 }else{
