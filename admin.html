@@ -253,6 +253,8 @@ const delivery=document.getElementById("delivery").value.trim();
 
 const packageName=document.getElementById("package").value.trim();
 
+const photo=document.getElementById("photo").value.trim();
+
 if(!tracking||!receiver||!location||!status){
 
 document.getElementById("message").innerHTML="Please complete all required fields.";
@@ -264,13 +266,20 @@ return;
 try {
 
 await setDoc(doc(db,"shipments",tracking),{
-  receiver,
-  location,
-  status,
-  delivery,
-  package:packageName
-});
 
+receiver,
+
+location,
+
+status,
+
+delivery,
+
+package:packageName,
+
+photo
+
+});
 document.getElementById("message").innerHTML="✅ Shipment saved successfully.";
 
 loadShipments();
