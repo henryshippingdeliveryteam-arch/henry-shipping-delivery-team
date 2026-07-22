@@ -187,26 +187,32 @@ ${data.history || "No shipment history available."}
 
 const status = data.status;
 
+const progressBar = document.getElementById("progressBar");
+
 if(status==="Processing"){
-processingStep.classList.add("active");
+    progressBar.style.width="25%";
+    processingStep.classList.add("active");
 }
 
 if(status==="In Transit"){
-processingStep.classList.add("completed");
-transitStep.classList.add("active");
+    progressBar.style.width="50%";
+    processingStep.classList.add("completed");
+    transitStep.classList.add("active");
 }
 
 if(status==="Out for Delivery"){
-processingStep.classList.add("completed");
-transitStep.classList.add("completed");
-deliveryStep.classList.add("active");
+    progressBar.style.width="75%";
+    processingStep.classList.add("completed");
+    transitStep.classList.add("completed");
+    deliveryStep.classList.add("active");
 }
 
 if(status==="Delivered"){
-processingStep.classList.add("completed");
-transitStep.classList.add("completed");
-deliveryStep.classList.add("completed");
-deliveredStep.classList.add("active");
+    progressBar.style.width="100%";
+    processingStep.classList.add("completed");
+    transitStep.classList.add("completed");
+    deliveryStep.classList.add("completed");
+    deliveredStep.classList.add("active");
 }
 
 }else{
