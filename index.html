@@ -50,6 +50,24 @@ Connecting the World, One Delivery at a Time.
 Track Shipment
 </a>
 
+<div style="margin-top:30px;">
+
+<h2 style="color:white;">Track Your Shipment</h2>
+
+<input
+type="text"
+id="homeTracking"
+placeholder="Enter Tracking Number"
+style="padding:12px;width:280px;max-width:90%;">
+
+<br><br>
+
+<button class="btn" onclick="goToTracking()">
+Track Shipment
+</button>
+
+</div>
+
 </section>
 
 <div class="container">
@@ -107,18 +125,29 @@ Track your package anytime using your tracking number.
 <footer>
 
 <p>
-
 © 2026 Henry Shipping Delivery Team
-
 </p>
 
 <p>
-
 Fast • Secure • Reliable
-
 </p>
 
 </footer>
+
+<script>
+function goToTracking(){
+
+const tracking=document.getElementById("homeTracking").value.trim();
+
+if(tracking===""){
+alert("Please enter a tracking number.");
+return;
+}
+
+window.location.href="tracking.html?tracking="+encodeURIComponent(tracking);
+
+}
+</script>
 
 </body>
 </html>
