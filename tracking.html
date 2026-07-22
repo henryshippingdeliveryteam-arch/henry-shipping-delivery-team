@@ -130,6 +130,10 @@ document.getElementById("result").innerHTML = `
 
 <p><strong>Package:</strong> ${data.package || "Not Available"}</p>
 
+<img src="${data.image}" 
+     alt="Package Image"
+     style="width:100%;max-width:350px;margin-top:15px;border-radius:10px;">
+
 ${data.photo ? `
 <div style="margin-top:20px;text-align:center;">
     <img src="${data.photo}"
