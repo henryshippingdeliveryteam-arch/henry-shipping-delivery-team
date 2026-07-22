@@ -228,3 +228,21 @@ transition:.3s;
 background:#003bb3;
 transform:scale(1.05);
 }
+
+/* Progress Bar */
+
+.progress-container{
+width:100%;
+height:14px;
+background:#ddd;
+border-radius:10px;
+margin:15px 0;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:#28a745;
+transition:width .5s ease;
+}
