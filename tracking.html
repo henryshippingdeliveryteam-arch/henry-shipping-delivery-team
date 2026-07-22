@@ -122,7 +122,15 @@ document.getElementById("result").innerHTML = `
 
 <p><strong>Receiver:</strong> ${data.receiver}</p>
 
+<p><strong>Courier:</strong> ${data.courier || "Henry Shipping Delivery Team"}</p>
+
 <p><strong>Status:</strong> ${data.status}</p>
+
+<div class="progress-container">
+
+<div id="progressBar" class="progress-bar"></div>
+
+</div>
 
 <p><strong>Current Location:</strong> ${data.location}</p>
 
