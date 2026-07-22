@@ -148,6 +148,8 @@ Admin Dashboard
 
 <input id="tracking" placeholder="Tracking Number">
 
+<input id="sender" placeholder="Sender Name">
+
 <input id="receiver" placeholder="Receiver Name">
 
 <input id="courier" placeholder="Courier Name">
@@ -257,6 +259,8 @@ window.saveShipment=async function(){
 
 const tracking=document.getElementById("tracking").value.trim();
 
+const sender=document.getElementById("sender").value.trim();
+
 const receiver=document.getElementById("receiver").value.trim();
 
 const courier=document.getElementById("courier").value.trim();
@@ -288,6 +292,8 @@ return;
 try {
 
 await setDoc(doc(db,"shipments",tracking),{
+
+sender,
 
 receiver,
   
